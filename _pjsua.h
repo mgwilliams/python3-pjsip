@@ -31,7 +31,7 @@ PJ_INLINE(pj_str_t) PyUnicode_ToPJ(const PyObject *obj)
 {
     pj_str_t str;
 
-    if (obj && PyBytes_Check(obj)) {
+    if (obj && PyUnicode_Check(obj)) {
 	str.ptr = PyUnicode_AsUTF8((PyObject *)obj);
 	str.slen = PyUnicode_GET_SIZE((PyObject *)obj);
     } else {
