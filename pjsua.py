@@ -62,7 +62,7 @@ import threading
 import weakref
 import time
 
-class Error:
+class Error(BaseException):
     """Error exception class.
     
     Member documentation:
@@ -92,7 +92,7 @@ class Error:
 
     def __str__(self):
         return "Object: " + str(self.obj) + ", operation=" + self.op_name + \
-               ", error=" + self.err_msg()
+               ", error=" + str(self.err_msg())
 
 # 
 # Constants
