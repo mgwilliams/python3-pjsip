@@ -1,0 +1,231 @@
+--- presence.py	(original)
++++ presence.py	(refactored)
+@@ -26,7 +26,7 @@
+ pending_uri = None
+ 
+ def log_cb(level, str, len):
+-    print str,
++    print(str, end=' ')
+ 
+ class MyAccountCallback(pj.AccountCallback):
+     def __init__(self, account=None):
+@@ -37,8 +37,8 @@
+         # Allow buddy to subscribe to our presence
+         if buddy:
+             return (200, None)
+-        print 'Incoming SUBSCRIBE request from', from_uri
+-        print 'Press "A" to accept and add, "R" to reject the request'
++        print('Incoming SUBSCRIBE request from', from_uri)
++        print('Press "A" to accept and add, "R" to reject the request')
+         pending_pres = pres
+         pending_uri = from_uri
+         return (202, None)
+@@ -49,24 +49,24 @@
+         pj.BuddyCallback.__init__(self, buddy)
+ 
+     def on_state(self):
+-        print "Buddy", self.buddy.info().uri, "is",
+-        print self.buddy.info().online_text
++        print("Buddy", self.buddy.info().uri, "is", end=' ')
++        print(self.buddy.info().online_text)
+ 
+     def on_pager(self, mime_type, body):
+-        print "Instant message from", self.buddy.info().uri, 
+-        print "(", mime_type, "):"
+-        print body
++        print("Instant message from", self.buddy.info().uri, end=' ') 
++        print("(", mime_type, "):")
++        print(body)
+ 
+     def on_pager_status(self, body, im_id, code, reason):
+         if code >= 300:
+-            print "Message delivery failed for message",
+-            print body, "to", self.buddy.info().uri, ":", reason
++            print("Message delivery failed for message", end=' ')
++            print(body, "to", self.buddy.info().uri, ":", reason)
+ 
+     def on_typing(self, is_typing):
+         if is_typing:
+-            print self.buddy.info().uri, "is typing"
++            print(self.buddy.info().uri, "is typing")
+         else:
+-            print self.buddy.info().uri, "stops typing"
++            print(self.buddy.info().uri, "stops typing")
+ 
+ 
+ lib = pj.Lib()
+@@ -79,8 +79,8 @@
+     # Create UDP transport which listens to any available port
+     transport = lib.create_transport(pj.TransportType.UDP, 
+                                      pj.TransportConfig(0))
+-    print "\nListening on", transport.info().host, 
+-    print "port", transport.info().port, "\n"
++    print("\nListening on", transport.info().host, end=' ') 
++    print("port", transport.info().port, "\n")
+     
+     # Start the library
+     lib.start()
+@@ -96,14 +96,14 @@
+ 
+     # Menu loop
+     while True:
+-        print "My SIP URI is", my_sip_uri
+-        print "Menu:  a=add buddy, d=delete buddy, t=toggle", \
+-              " online status, i=send IM, q=quit"
++        print("My SIP URI is", my_sip_uri)
++        print("Menu:  a=add buddy, d=delete buddy, t=toggle", \
++              " online status, i=send IM, q=quit")
+ 
+         input = sys.stdin.readline().rstrip("\r\n")
+         if input == "a":
+             # Add buddy
+-            print "Enter buddy URI: ", 
++            print("Enter buddy URI: ", end=' ') 
+             input = sys.stdin.readline().rstrip("\r\n")
+             if input == "":
+                 continue
+@@ -116,12 +116,12 @@
+ 
+         elif input == "i":
+             if not buddy:
+-                print "Add buddy first"
++                print("Add buddy first")
+                 continue
+ 
+             buddy.send_typing_ind(True)
+ 
+-            print "Type the message: ", 
++            print("Type the message: ", end=' ') 
+             input = sys.stdin.readline().rstrip("\r\n")
+             if input == "":
+                 buddy.send_typing_ind(False)
+@@ -134,7 +134,7 @@
+                 buddy.delete()
+                 buddy = None
+             else:
+-                print 'No buddy was added'
++                print('No buddy was added')
+ 
+         elif input == "A":
+             if pending_pres:
+@@ -144,7 +144,7 @@
+                 pending_pres = None
+                 pending_uri = None
+             else:
+-                print "No pending request"
++                print("No pending request")
+ 
+         elif input == "R":
+             if pending_pres:
+@@ -153,7 +153,7 @@
+                 pending_pres = None
+                 pending_uri = None
+             else:
+-                print "No pending request"
++                print("No pending request")
+ 
+         elif input == "q":
+             break
+@@ -168,8 +168,8 @@
+     lib.destroy()
+     lib = None
+ 
+-except pj.Error, e:
+-    print "Exception: " + str(e)
++except pj.Error as e:
++    print("Exception: " + str(e))
+     lib.destroy()
+     lib = None
+ 
+--- registration.py	(original)
++++ registration.py	(refactored)
+@@ -25,7 +25,7 @@
+ 
+ 
+ def log_cb(level, str, len):
+-    print str,
++    print(str, end=' ')
+ 
+ class MyAccountCallback(pj.AccountCallback):
+     sem = None
+@@ -55,16 +55,16 @@
+     acc.set_callback(acc_cb)
+     acc_cb.wait()
+ 
+-    print "\n"
+-    print "Registration complete, status=", acc.info().reg_status, \
+-          "(" + acc.info().reg_reason + ")"
+-    print "\nPress ENTER to quit"
++    print("\n")
++    print("Registration complete, status=", acc.info().reg_status, \
++          "(" + acc.info().reg_reason + ")")
++    print("\nPress ENTER to quit")
+     sys.stdin.readline()
+ 
+     lib.destroy()
+     lib = None
+ 
+-except pj.Error, e:
+-    print "Exception: " + str(e)
++except pj.Error as e:
++    print("Exception: " + str(e))
+     lib.destroy()
+ 
+--- simplecall.py	(original)
++++ simplecall.py	(refactored)
+@@ -24,7 +24,7 @@
+ 
+ # Logging callback
+ def log_cb(level, str, len):
+-    print str,
++    print(str, end=' ')
+ 
+ # Callback to receive events from Call
+ class MyCallCallback(pj.CallCallback):
+@@ -33,9 +33,9 @@
+ 
+     # Notification when call state has changed
+     def on_state(self):
+-        print "Call is ", self.call.info().state_text,
+-        print "last code =", self.call.info().last_code, 
+-        print "(" + self.call.info().last_reason + ")"
++        print("Call is ", self.call.info().state_text, end=' ')
++        print("last code =", self.call.info().last_code, end=' ') 
++        print("(" + self.call.info().last_reason + ")")
+         
+     # Notification when call's media state has changed.
+     def on_media_state(self):
+@@ -45,12 +45,12 @@
+             call_slot = self.call.info().conf_slot
+             lib.conf_connect(call_slot, 0)
+             lib.conf_connect(0, call_slot)
+-            print "Hello world, I can talk!"
++            print("Hello world, I can talk!")
+ 
+ 
+ # Check command line argument
+ if len(sys.argv) != 2:
+-    print "Usage: simplecall.py <dst-URI>"
++    print("Usage: simplecall.py <dst-URI>")
+     sys.exit(1)
+ 
+ try:
+@@ -73,15 +73,15 @@
+     call = acc.make_call(sys.argv[1], MyCallCallback())
+ 
+     # Wait for ENTER before quitting
+-    print "Press <ENTER> to quit"
++    print("Press <ENTER> to quit")
+     input = sys.stdin.readline().rstrip("\r\n")
+ 
+     # We're done, shutdown the library
+     lib.destroy()
+     lib = None
+ 
+-except pj.Error, e:
+-    print "Exception: " + str(e)
++except pj.Error as e:
++    print("Exception: " + str(e))
+     lib.destroy()
+     lib = None
+     sys.exit(1)
