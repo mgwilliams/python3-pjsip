@@ -2,6 +2,7 @@
 #
 # Object oriented PJSUA wrapper.
 #
+# Copyright (C) 2016 Matthew Williams <mgwilliams@gmail.com>
 # Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
 #
 # This program is free software; you can redistribute it and/or modify

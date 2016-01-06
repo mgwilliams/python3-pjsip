@@ -1,5 +1,6 @@
 /* $Id: _pjsua.h 4724 2014-01-31 08:52:09Z nanang $ */
 /* 
+ * Copyright (C) 2016 Matthew Williams <mgwilliams@gmail.com>
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
  *
