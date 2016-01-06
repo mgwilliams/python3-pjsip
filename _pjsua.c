@@ -3536,7 +3536,7 @@ static PyObject *py_pjsua_call_send_request(PyObject *pSelf, PyObject *pArgs)
         return NULL;
     }
 
-    if (!PyBytes_Check(pMethod)) {
+    if (!PyUnicode_Check(pMethod)) {
 	return NULL;
     }
 
