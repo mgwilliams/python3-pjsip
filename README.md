@@ -43,3 +43,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 ## Comments
 
 If when you import the package the compiler complains about the lack of some *.so* file, add the `/usr/local/lib` directory to ldconfig - [Explanation](https://unix.stackexchange.com/a/67784/120790).
+
+
+## Build instructions on Ubuntu 18.04
+
+Detailed build instructions for PJSUA and PSUA2 can be found [here](https://github.com/TamojitSaha/python3-pjsip/wiki/Instruction-for-compiling-PJSUA-and-PJSUA2-in-Ubuntu-18.04)
